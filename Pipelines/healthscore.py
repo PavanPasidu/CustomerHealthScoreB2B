@@ -45,7 +45,7 @@ X = input_data[['completion', 'Sales Region', 'Sub Region', 'Account Manager Nam
 X.dropna(inplace=True)
 
 # load the model
-filename = 'E:\Research\Models/GradientBoostingRegressorModel2.pkl'
+filename = 'Models/GradientBoostingRegressorModel2.pkl'
 model = pickle.load(open(filename, 'rb'))
 
 # predict 

@@ -7,7 +7,7 @@ import joblib
 input_data = pd.read_csv('E:/Research/WebApp/input.csv')
 
 # load the model
-rfc = joblib.load('E:/Research/Models/Classifiers/random_forest_classifier_model.pkl')
+rfc = joblib.load('Models/random_forest_classifier_model.pkl')
 
 # change the headers to ease of use
 header_map = {
