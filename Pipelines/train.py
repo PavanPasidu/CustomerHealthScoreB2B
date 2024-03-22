@@ -7,13 +7,22 @@ import FillingMissingVlaues as fmv
 import Labeling as lb
 import Encoder as en
 import warnings
+import Constant as const
+import GetServicenowData as snd
+import ConverttoCSV as csv
 
 warnings.filterwarnings('ignore')
+constant    =   const.Constant()
+servicenow  =   snd.GetServicenowData(const=constant,url='https://wso2sndev.service-now.com/oauth_token.do')
+csv         =   csv.ConverttoCSV(constant=constant,servicenow=servicenow)
 
 filepath        = 'E:/Research/Datasets/WSO2/Healthscore_dataset'
 nps             = pd.read_csv(filepath + '/NPS.csv')
-caseDetails     = ''
-accountDetails  = ''
+
+caseDetailspath,accountDetailspath  = csv.getData()
+caseData    =   pd.read_csv(caseDetailspath)
+accountData =   pd.read_csv(accountDetailspath)
+print(nps,'\n\n',caseData,'\n\n',accountData,'\n\n')
 
 # Get encoded dataframe
 adj     = en.Encoder(nps)
@@ -63,3 +72,6 @@ filled_df   = fm.getFilledDataset()
 labeling        =  lb.Labeling(filled_df)
 labeledDataset  =  labeling.returnLabeleddf()
 print('Maximum healthscore: ',labeledDataset['healthScore'].max(),'\nMinimum healthscore: ',labeledDataset['healthScore'].min())
+
+
+# Train a model
