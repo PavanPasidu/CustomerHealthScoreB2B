@@ -1,0 +1,31 @@
+Repository Guide
+
+Introduction:
+This repository contains Training , Testing pipelines for Customer Health Score and Trained models for healthscore generation. 
+
+Installation & Setup Instructions:
+(These instructions are for VS code )
+1. Clone the repositary to your local environment.
+2. Create virtual environment using command - "python -m venv env" 
+3. Activate virtual environment using command - ".\path\to\env\Scripts\activate"   (Type this in powershell)
+4. Install required libraries refering requirement.txt to your environment.
+5. Follow below instructions to create the folder structure.
+
+Folder structure:
+The folder structure in this git repo is correct. But you need to follow the guides inside those folders.
+
+
+Usage Instructions:
+1. Run [python .path\to\TrainPipelines\train.py] to run training pipeline.
+
+
+Troubleshooting:
+- If you face Error code : 401 Unauthorized,
+	Try generating access_token manualy by using postman 
+- Refer this video if you are new to postman - ( https://youtu.be/eEWH5KinzFE?si=JniZYOJP6GWGNBi- )
+
+
+
+Contact Information:
+For support or questions, contact through me company email.
+
