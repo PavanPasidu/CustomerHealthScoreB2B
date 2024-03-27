@@ -16,7 +16,7 @@ The folder structure in this git repo is correct. But you need to follow the gui
 
 
 Usage Instructions:
-1. Run [python .path\to\TrainPipelines\train.py] to run training pipeline.
+1. Run [python .path\to\TrainPipelines\train.py] or [python -m TrainPipelines.train] to run training pipeline.
 
 
 Troubleshooting:
