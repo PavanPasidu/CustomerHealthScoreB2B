@@ -35,8 +35,8 @@ def get_json_payload(api_endpoint,params):
 
 
 sch = scheduler()
-sch.add_job(get_json_payload,trigger='cron', args=(api_endpoint,params) ,hour=18,  minute=20)
-sch.add_job(updateHealthscore,trigger='cron',hour=18,  minute=20)
+sch.add_job(get_json_payload,trigger='cron', args=(api_endpoint,params) ,hour=9,  minute=20)
+sch.add_job(updateHealthscore,trigger='cron',hour=11,  minute=20)
 sch.start()
 try:
     print('Scheduler started, ctrl+c to exit!')

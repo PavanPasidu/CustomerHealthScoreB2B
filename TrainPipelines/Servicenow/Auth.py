@@ -1,6 +1,6 @@
 import requests
 import os
-import Constant as cons
+from ..Constant import Constant as cons
 from fastapi import FastAPI, HTTPException, BackgroundTasks
 import json
 

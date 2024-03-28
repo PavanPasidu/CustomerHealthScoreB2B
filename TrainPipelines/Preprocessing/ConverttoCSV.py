@@ -1,5 +1,5 @@
-import Constant as const
-import Servicenow.GetServicenowData as snd
+from ..Constant import Constant as const
+from ..Servicenow.GetServicenowData import GetServicenowData as snd
 import csv
 import pandas as pd
 

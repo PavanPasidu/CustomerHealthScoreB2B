@@ -1,24 +1,24 @@
 # Get datasets 
 import pandas as pd
 import numpy as np
-import Preprocessing.RecordAgreement as ra
-import Preprocessing.RemoveOutliers as outlier
-import Preprocessing.FillingMissingVlaues as fmv
-import Preprocessing.Labeling as lb
-import Preprocessing.Encoder as en
+from .Preprocessing.RecordAgreement import RecordAgreement
+from .Preprocessing.RemoveOutliers import RemoveOutliers
+from .Preprocessing.FillingMissingVlaues import FillingMissingValues
+from .Preprocessing.Labeling import Labeling
+from .Preprocessing.Encoder import Encoder
 import warnings
-import Constant as const
-import Servicenow.GetServicenowData as snd
-import Preprocessing.ConverttoCSV as csv
-import Merging.MergingDatasets as mg
-import ModelTrain.ModelTraining as mt
+from .Constant import Constant as const
+from .Servicenow.GetServicenowData import GetServicenowData
+from .Preprocessing.ConverttoCSV import ConverttoCSV
+from .Merging.MergingDatasets import MergingDatasets
+from .ModelTrain.ModelTraining import ModelTraining
 import pickle
 import os
 
 warnings.filterwarnings('ignore')
-constant    =   const.Constant()
-servicenow  =   snd.GetServicenowData(const=constant,url='https://wso2sndev.service-now.com/oauth_token.do')
-csv         =   csv.ConverttoCSV(constant=constant,servicenow=servicenow)
+constant    =   const
+servicenow  =   GetServicenowData(const=constant,url='https://wso2sndev.service-now.com/oauth_token.do')
+csv         =   ConverttoCSV(constant=constant,servicenow=servicenow)
 
 filepath        = 'E:/Research/Datasets/WSO2/Healthscore_dataset'       # Replace this path with path/to/NPSsurvey.csv
 nps             = pd.read_csv(filepath + '/NPS.csv')
@@ -27,9 +27,9 @@ caseData,accountData  = csv.getData()
 print('\n',nps,'\n\n',caseData,'\n\n',accountData,'\n\n')
 
 # Get encoded dataframe
-adj     = en.Encoder(nps)
+adj     = Encoder(nps)
 temp_d2 =  adj.adjustingDataset()
-encode  = en.Encoder(temp_d2)
+encode  = Encoder(temp_d2)
 temp_d3 =   encode.customEncoder()
 
 
@@ -48,7 +48,7 @@ Here I am considering low agreement data records as outliers. Since I can not de
 from single account, I am going to drop all the responses belongs to that account name.
 '''
 
-agreement       = ra.RecordAgreement(temp_d3)                             # create an object of RecordAgreement class
+agreement       = RecordAgreement(temp_d3)                             # create an object of RecordAgreement class
 highAgreementdf =  agreement.gethighAgreementSurveys()                    # get dataset with reocrds which have high agreement between multiple responses
 
 
@@ -58,31 +58,31 @@ highAgreementdf =  agreement.gethighAgreementSurveys()                    # get 
 Here I am considering differnce between mode and other values of likely to recommend us as the removing criteria of outliers.
 '''
 temp_df1    = highAgreementdf
-outlierObj  =  outlier.RemoveOutliers(temp_df1)
+outlierObj  =  RemoveOutliers(temp_df1)
 filtered_df = outlierObj.removeOutliers()
 
 
 
 # Filling missing values
 temp_df2    = filtered_df
-fm          = fmv.FillingMissingValues(temp_df2)
+fm          = FillingMissingValues(temp_df2)
 filled_df   = fm.getFilledDataset()
 
 
 
 # Labeling nps dataset
-labeling        =  lb.Labeling(filled_df)
+labeling        =  Labeling(filled_df)
 labeledDataset  =  labeling.returnLabeleddf()
 print('Maximum healthscore: ',labeledDataset['healthScore'].max(),'\nMinimum healthscore: ',labeledDataset['healthScore'].min())
 
 
 # merging the datasets
-merger          =   mg.MergingDatasets(nps=nps,caseData=caseData,accountData=accountData)
+merger          =   MergingDatasets(nps=nps,caseData=caseData,accountData=accountData)
 merged_dataset  =   merger.mergeDataset()
 
 # Train a model
 '''Here we asssume that this data does not have any missing values(Need to check this). And also all the data we give as input and output are float/int'''
-modelObj       =   mt.ModelTraining(merged_dataset)
+modelObj       =   ModelTraining(merged_dataset)
 model          =    modelObj.modelTrain()
 
 # Save the model
